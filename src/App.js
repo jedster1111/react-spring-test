@@ -7,13 +7,29 @@ class ClickMe extends PureComponent {
     super(props);
     this.state = {
       toggle:true,
+      timer:0,
+      ascend: true,
     }
+  }
+  componentDidMount(){
+    setInterval(this.updateTimer, 2500);
+  }
+  updateTimer = () =>{
+    let {ascend} = this.state;
+    if(this.state.timer === 0){
+      ascend = true;
+    } else if(this.state.timer === 4){
+      ascend = false;
+    }
+    this.setState(
+      ({timer}, props)=>({timer: timer + (ascend ? 1 : -1), ascend: ascend})
+    );
   }
   handleToggle = () => this.setState(state => ({ toggle: !state.toggle }));
   render(){
     const isToggle = this.state.toggle;
     const rotation = isToggle ? '0deg' : '150deg';
-    const translation = isToggle ? '0px,0px,0px' : '50px, 100px,0px';
+    const translation = isToggle ? `0px,${this.state.timer*100}px,0px` : '50px, 100px,0px';
     const scale = isToggle ? '1, 1' : '1.5, 1.5';
     return(
       <Spring
