@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import { Spring, animated } from 'react-spring';
+import { Spring, config } from 'react-spring';
 import './App.css';
 
 class ClickMe extends PureComponent {
@@ -23,7 +23,8 @@ class ClickMe extends PureComponent {
           backgroundColor: isToggle ? 'yellow' : 'lightblue',
           transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
           borderColor: isToggle ? 'black' : 'white',
-        }}>
+        }}
+        config = {config.wobbly}>
         {styles => <div style = {styles} className='test' onClick={this.handleToggle}>I will fade in</div>}
       </Spring>
     )
