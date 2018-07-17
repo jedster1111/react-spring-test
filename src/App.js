@@ -10,11 +10,10 @@ class ClickMe extends PureComponent {
     }
   }
   handleToggle = () => this.setState(state => ({ toggle: !state.toggle }));
-
   render(){
     const isToggle = this.state.toggle;
     const rotation = isToggle ? '0deg' : '150deg';
-    const translation = isToggle ? '0px,0px' : '50px, 100px';
+    const translation = isToggle ? '0px,0px,0px' : '50px, 100px,0px';
     const scale = isToggle ? '1, 1' : '1.5, 1.5';
     return(
       <Spring
@@ -22,8 +21,9 @@ class ClickMe extends PureComponent {
         from = {{ opacity:0 }}
         to = {{
           opacity: 1,
-          backgroundColor: isToggle ? 'yellow' : 'blue',
-          transform: `translate(${translation}) rotate(${rotation}) scale(${scale})`,
+          backgroundColor: isToggle ? 'yellow' : 'lightblue',
+          transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
+          borderColor: isToggle ? 'black' : 'white',
         }}>
         {styles => <animated.div style = {styles} className='test' onClick={this.handleToggle}>I will fade in</animated.div>}
       </Spring>
