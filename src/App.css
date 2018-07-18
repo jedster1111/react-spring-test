@@ -26,7 +26,7 @@ br {
   cursor: default;
 }
 
-#root {
+#root{
   background: #dfdfdf;
 }
 
@@ -40,7 +40,10 @@ br {
   width:100px;
   height: 100px;
   border-radius: 10px;
-  margin: 15px;
+  margin: 15px 60px;
   padding: 5px;
   border: black solid 2px;
+}
+.test:hover {
+  transform: scale(1.1);
 }

@@ -2,46 +2,76 @@ import React, {PureComponent} from 'react';
 import { Spring, config } from 'react-spring';
 import './App.css';
 
+const colours = [
+  '#48611F',
+  'orange',
+  '#692822',
+  '#571C39',
+  '#478154'
+]
+
 class ClickMe extends PureComponent {
   constructor(props){
     super(props);
     this.state = {
       toggle:true,
-      timer:0,
+      count:0,
       ascend: true,
+      isHovered: false,
     }
   }
   componentDidMount(){
-    setInterval(this.updateTimer, 2500);
+    //setInterval(this.updateCount, 2500);
   }
-  updateTimer = () =>{
+  updateCount = () =>{
     let {ascend} = this.state;
-    if(this.state.timer === 0){
+    if(this.state.count <= 0){
       ascend = true;
-    } else if(this.state.timer === 4){
+    } else if(this.state.count >= 4){
       ascend = false;
     }
     this.setState(
-      ({timer}, props)=>({timer: timer + (ascend ? 1 : -1), ascend: ascend})
-    );
+      ({count}) => (
+        {count: count + (ascend ? 0.5 : -0.5), ascend: ascend}
+      )
+    )
   }
-  handleToggle = () => this.setState(state => ({ toggle: !state.toggle }));
+  handleToggle = () => {
+    this.setState(state => ({ toggle: !state.toggle }));
+    this.updateCount();
+  }
+  handleHoverIn = () => {
+    this.setState({isHovered: true});
+  }
+  handleHoverOut = () => {
+    this.setState({isHovered: false});
+  }
   render(){
+    const {count, isHovered} = this.state;
     const isToggle = this.state.toggle;
-    const rotation = isToggle ? '0deg' : '150deg';
-    const translation = isToggle ? `0px,${this.state.timer*100}px,0px` : '50px, 100px,0px';
-    const scale = isToggle ? '1, 1' : '1.5, 1.5';
+    const rotation = isToggle ? '0deg' : '135deg';
+    const translation = isToggle ? `0px,${count*100}px,0px` : '0px, 200px,0px';
+    const scale = isToggle ? (!isHovered ? '1, 1' : '1.05, 1.05') : (!isHovered ? '1.5, 1.5' : '1.55, 1.55');
     return(
       <Spring
         from = {{ opacity:0 }}
         to = {{
           opacity: 1,
-          backgroundColor: isToggle ? 'yellow' : 'lightblue',
+          backgroundColor: isToggle ? colours[Math.floor(count)] : 'lightblue',
           transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
           borderColor: isToggle ? 'black' : 'white',
         }}
         config = {config.wobbly}>
-        {styles => <div style = {styles} className='test' onClick={this.handleToggle}>I will fade in</div>}
+        {styles =>
+          <div
+            style = {styles}
+            className='test'
+            onClick={this.handleToggle}
+            onMouseEnter={this.handleHoverIn}
+            onMouseLeave={this.handleHoverOut}
+          >
+            <span>{count}</span>
+          </div>}
       </Spring>
     )
   }
