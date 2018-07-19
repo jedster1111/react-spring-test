@@ -61,7 +61,7 @@ class ClickMe extends PureComponent {
           transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
           borderColor: isToggle ? 'black' : 'white',
         }}
-        config = {config.wobbly}>
+        config = {config.gentle}>
         {styles =>
           <div
             style = {styles}
@@ -69,9 +69,8 @@ class ClickMe extends PureComponent {
             onClick={this.handleToggle}
             onMouseEnter={this.handleHoverIn}
             onMouseLeave={this.handleHoverOut}
-          >
-            <span>{count}</span>
-          </div>}
+          />
+        }
       </Spring>
     )
   }
