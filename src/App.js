@@ -3,7 +3,7 @@ import { Spring, config } from 'react-spring';
 import './App.css';
 
 const colours = [
-  '#48611F',
+  '#3D9970',
   'orange',
   '#692822',
   '#571C39',
@@ -50,7 +50,7 @@ class ClickMe extends PureComponent {
     const {count, isHovered} = this.state;
     const isToggle = this.state.toggle;
     const rotation = isToggle ? '0deg' : '135deg';
-    const translation = isToggle ? `0px,${count*100}px,0px` : '0px, 200px,0px';
+    const translation = `0px,${count*100}px,0px`;
     const scale = isToggle ? (!isHovered ? '1, 1' : '1.05, 1.05') : (!isHovered ? '1.5, 1.5' : '1.55, 1.55');
     return(
       <Spring
