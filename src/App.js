@@ -63,13 +63,13 @@ class ClickMe extends PureComponent {
         }}
         config = {config.gentle}>
         {styles =>
-          <div
+          [<div
             style = {styles}
             className='test'
             onClick={this.handleToggle}
             onMouseEnter={this.handleHoverIn}
             onMouseLeave={this.handleHoverOut}
-          />
+          />, <div style = {styles} className='test'>Hello</div>]
         }
       </Spring>
     )
