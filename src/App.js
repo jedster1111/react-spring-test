@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import { Spring, config } from 'react-spring';
 import './App.css';
 
@@ -37,7 +37,7 @@ class ClickMe extends PureComponent {
     )
   }
   handleToggle = () => {
-    this.setState(state => ({ toggle: !state.toggle }));
+    this.setState(({toggle}) => ({ toggle: !toggle }));
     this.updateCount();
   }
   handleHoverIn = () => {
@@ -57,19 +57,21 @@ class ClickMe extends PureComponent {
         from = {{ opacity:0 }}
         to = {{
           opacity: 1,
-          backgroundColor: isToggle ? colours[Math.floor(count)] : 'lightblue',
+          backgroundColor: isToggle ? colours[count] : 'lightblue',
           transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
           borderColor: isToggle ? 'black' : 'white',
         }}
         config = {config.gentle}>
         {styles =>
-          [<div
+        <Fragment>
+          <div
             style = {styles}
             className='test'
             onClick={this.handleToggle}
             onMouseEnter={this.handleHoverIn}
             onMouseLeave={this.handleHoverOut}
-          />]
+          />
+        </Fragment>
         }
       </Spring>
     )
