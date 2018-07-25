@@ -46,7 +46,7 @@ class ClickMe extends PureComponent {
   handleHoverOut = () => {
     this.setState({isHovered: false});
   }
-  render(){
+  renderSpring = () => {
     const {count, isHovered} = this.state;
     const isToggle = this.state.toggle;
     const rotation = isToggle ? '0deg' : '135deg';
@@ -63,7 +63,6 @@ class ClickMe extends PureComponent {
         }}
         config = {config.gentle}>
         {styles =>
-        <Fragment>
           <div
             style = {styles}
             className='test'
@@ -71,9 +70,15 @@ class ClickMe extends PureComponent {
             onMouseEnter={this.handleHoverIn}
             onMouseLeave={this.handleHoverOut}
           />
-        </Fragment>
         }
       </Spring>
+    )
+  }
+  render(){
+    return(
+      <Fragment>
+        {this.renderSpring()}
+      </Fragment>
     )
   }
 }
