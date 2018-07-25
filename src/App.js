@@ -1,5 +1,6 @@
 import React, {PureComponent, Fragment} from 'react';
-import { Spring, config } from 'react-spring';
+import { Spring, config, Transition } from 'react-spring';
+import uuidv4 from 'uuid/v4';
 import './App.css';
 
 const colours = [
@@ -52,18 +53,18 @@ class ClickMe extends PureComponent {
     const rotation = isToggle ? '0deg' : '135deg';
     const translation = `0px,${count*100}px,0px`;
     const scale = isToggle ? (!isHovered ? '1, 1' : '1.05, 1.05') : (!isHovered ? '1.5, 1.5' : '1.55, 1.55');
+    const {transitionStyles} = this.props;
     return(
       <Spring
         to = {{
           opacity: 1,
           backgroundColor: isToggle ? colours[count] : 'lightblue',
-          transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
           borderColor: isToggle ? 'black' : 'white',
         }}
         config = {config.slow}>
         {styles =>
           <div
-            style = {styles}
+            style = {{...styles, ...transitionStyles}}
             className='test'
             onClick={this.handleToggle}
             onMouseEnter={this.handleHoverIn}
@@ -84,30 +85,43 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfSquares: 0,
+      squares: [],
     };
   }
   handleAddSquare = () => {
-    this.setState((prevState) => ({numberOfSquares: prevState.numberOfSquares + 1}))
+    this.setState(({squares}) => ({squares: squares.concat([uuidv4()])}));
   }
   handleMinusSquare = () => {
-    this.setState(({numberOfSquares}) => ({numberOfSquares: numberOfSquares <= 0 ? numberOfSquares : numberOfSquares - 1}))
+    console.log('minused')
+    this.setState(({squares}) => {
+      return {squares: squares.slice(1)}
+    });
   }
   renderSquares = () => {
-    const {numberOfSquares} = this.state;
-    let squares = [];
-    for(let i=0; i < numberOfSquares; i++){
-      squares.push(<ClickMe key={i} />); // Not sure if I should be using index as key here, might cause problems if I want to reorder
-    }
-    return squares;
+    const {squares} = this.state;
+    return(
+      squares.map((value) => {
+        return(
+          <ClickMe key={value} />
+        );
+      })
+    );
   }
   render(){
+    const {squares} = this.state;
     return (
       <Fragment>     
         <button onClick={this.handleAddSquare}>+</button>
         <button onClick={this.handleMinusSquare}>-</button>
         <div id='main-content'>
-            {this.renderSquares()}
+          <Transition
+            keys = {squares}
+            from = {{opacity:0, height: 0}}
+            enter = {{opacity:1, height: 100}}
+            leave = {{opacity:0, height: 0}}
+          >
+            {squares.map((value) => styles => <ClickMe transitionStyles={styles} key={value}></ClickMe>)}
+          </Transition>
         </div>
       </Fragment>  
     )
