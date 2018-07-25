@@ -47,3 +47,8 @@ br {
 .test:hover {
   transform: scale(1.1);
 }
+button {
+  width:90px;
+  height:60px;
+  margin: 10px 5px;
+}

@@ -54,14 +54,13 @@ class ClickMe extends PureComponent {
     const scale = isToggle ? (!isHovered ? '1, 1' : '1.05, 1.05') : (!isHovered ? '1.5, 1.5' : '1.55, 1.55');
     return(
       <Spring
-        from = {{ opacity:0 }}
         to = {{
           opacity: 1,
           backgroundColor: isToggle ? colours[count] : 'lightblue',
           transform: `translate3d(${translation}) rotate(${rotation}) scale(${scale})`,
           borderColor: isToggle ? 'black' : 'white',
         }}
-        config = {config.gentle}>
+        config = {config.slow}>
         {styles =>
           <div
             style = {styles}
@@ -76,20 +75,41 @@ class ClickMe extends PureComponent {
   }
   render(){
     return(
-      <Fragment>
-        {this.renderSpring()}
-      </Fragment>
+        this.renderSpring()
     )
   }
 }
 
 class App extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      numberOfSquares: 0,
+    };
+  }
+  handleAddSquare = () => {
+    this.setState((prevState) => ({numberOfSquares: prevState.numberOfSquares + 1}))
+  }
+  handleMinusSquare = () => {
+    this.setState((prevState) => ({numberOfSquares: prevState.numberOfSquares - 1}))
+  }
+  renderSquares = () => {
+    const {numberOfSquares} = this.state;
+    let squares = [];
+    for(let i=0; i < numberOfSquares; i++){
+      squares.push(<ClickMe key={i} />); // Not sure if I should be using index as key here, might cause problems if I want to reorder
+    }
+    return squares;
+  }
   render(){
     return (
-      <div id='main-content'>
-        <ClickMe />
-        <ClickMe />
-      </div>
+      <Fragment>     
+        <button onClick={this.handleAddSquare}>+</button>
+        <button onClick={this.handleMinusSquare}>-</button>
+        <div id='main-content'>
+            {this.renderSquares()}
+        </div>
+      </Fragment>  
     )
   }
 }
