@@ -118,10 +118,10 @@ class App extends PureComponent {
           <Transition
             keys = {squares}
             from = {{opacity:0, height: 0}}
-            enter = {{opacity:1, height: 100, backgroundColor: toggle ? 'lightblue' : 'orange'}}
+            enter = {{opacity:1, height: 100}}
             leave = {{opacity:0, height: 0}}
           >
-            {squares.map((value) => styles => <div className='test' style={styles} onClick={this.handleToggle}></div>)}
+            {squares.map(value => styles => <ClickMe transitionStyles={styles} key={value} />)}
           </Transition>
         </div>
       </Fragment>  
