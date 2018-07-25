@@ -91,7 +91,7 @@ class App extends PureComponent {
     this.setState((prevState) => ({numberOfSquares: prevState.numberOfSquares + 1}))
   }
   handleMinusSquare = () => {
-    this.setState((prevState) => ({numberOfSquares: prevState.numberOfSquares - 1}))
+    this.setState(({numberOfSquares}) => ({numberOfSquares: numberOfSquares <= 0 ? numberOfSquares : numberOfSquares - 1}))
   }
   renderSquares = () => {
     const {numberOfSquares} = this.state;
