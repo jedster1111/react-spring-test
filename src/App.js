@@ -48,11 +48,8 @@ class ClickMe extends PureComponent {
     this.setState({isHovered: false});
   }
   renderSpring = () => {
-    const {count, isHovered} = this.state;
+    const {count} = this.state;
     const isToggle = this.state.toggle;
-    const rotation = isToggle ? '0deg' : '135deg';
-    const translation = `0px,${count*100}px,0px`;
-    const scale = isToggle ? (!isHovered ? '1, 1' : '1.05, 1.05') : (!isHovered ? '1.5, 1.5' : '1.55, 1.55');
     const {transitionStyles} = this.props;
     return(
       <Spring
@@ -86,6 +83,7 @@ class App extends PureComponent {
     super(props);
     this.state = {
       squares: [],
+      toggle: true,
     };
   }
   handleAddSquare = () => {
@@ -96,6 +94,9 @@ class App extends PureComponent {
     this.setState(({squares}) => {
       return {squares: squares.slice(1)}
     });
+  }
+  handleToggle = () => {
+    this.setState(({toggle}) => ({toggle: !toggle}));
   }
   renderSquares = () => {
     const {squares} = this.state;
@@ -108,7 +109,7 @@ class App extends PureComponent {
     );
   }
   render(){
-    const {squares} = this.state;
+    const {squares, toggle} = this.state;
     return (
       <Fragment>     
         <button onClick={this.handleAddSquare}>+</button>
@@ -117,10 +118,10 @@ class App extends PureComponent {
           <Transition
             keys = {squares}
             from = {{opacity:0, height: 0}}
-            enter = {{opacity:1, height: 100}}
+            enter = {{opacity:1, height: 100, backgroundColor: toggle ? 'lightblue' : 'orange'}}
             leave = {{opacity:0, height: 0}}
           >
-            {squares.map((value) => styles => <ClickMe transitionStyles={styles} key={value}></ClickMe>)}
+            {squares.map((value) => styles => <div className='test' style={styles} onClick={this.handleToggle}></div>)}
           </Transition>
         </div>
       </Fragment>  
