@@ -87,7 +87,7 @@ class App extends PureComponent {
     };
   }
   handleAddSquare = () => {
-    this.setState(({squares}) => ({squares: squares.concat([uuidv4()])}));
+    this.setState(({squares}) => ({squares: [...squares, uuidv4()]}));
   }
   handleMinusSquare = () => {
     console.log('minused')
@@ -109,7 +109,7 @@ class App extends PureComponent {
     );
   }
   render(){
-    const {squares, toggle} = this.state;
+    const {squares} = this.state;
     return (
       <Fragment>     
         <button onClick={this.handleAddSquare}>+</button>
