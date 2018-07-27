@@ -1,5 +1,5 @@
 import React, {PureComponent, Fragment} from 'react';
-import { Spring, config, Transition } from 'react-spring';
+import { Spring, config, Transition, animated } from 'react-spring';
 import uuidv4 from 'uuid/v4';
 import './App.css';
 
@@ -53,6 +53,7 @@ class ClickMe extends PureComponent {
     const {transitionStyles} = this.props;
     return(
       <Spring
+        native
         to = {{
           opacity: 1,
           backgroundColor: isToggle ? colours[count] : 'lightblue',
@@ -60,7 +61,7 @@ class ClickMe extends PureComponent {
         }}
         config = {config.slow}>
         {styles =>
-          <div
+          <animated.div
             style = {{...styles, ...transitionStyles}}
             className='test'
             onClick={this.handleToggle}
@@ -116,6 +117,7 @@ class App extends PureComponent {
         <button onClick={this.handleMinusSquare}>-</button>
         <div id='main-content'>
           <Transition
+            native
             keys = {squares}
             from = {{opacity:0, height: 0}}
             enter = {{opacity:1, height: 100}}
